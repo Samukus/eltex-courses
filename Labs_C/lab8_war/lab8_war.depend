@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1444350158 source:/home/alex/eltex/lab8_war/main.c
+	<sys/types.h>
+	<sys/stat.h>
+	<wait.h>
+	<fcntl.h>
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
+	<string.h>
+	<errno.h>
+	<sys/msg.h>
+

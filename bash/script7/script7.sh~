@@ -1,0 +1,64 @@
+#!/bin/bash
+# 1 - git / 2 git source / 3 files
+if [ $# = 3 ]; then
+	if [ $1 = "git" ]; then
+		if [ ! -e $2] 
+		then
+			mkdir $2
+			cd $2
+			`git init`
+		fi
+		cp $3 $2
+		cd $2
+		COMMIT=`date +%F`_`date +%T`
+		`git add .`
+		`git commit -m $COMMIT`
+	else
+		echo "Need 3 entry parametrs."
+	fi
+exit 0
+fi
+
+echo "Укажите файл(ы) для бэкапа"
+read files
+echo "Укажите метод : 1) tar 2) dd 3) git"
+read method
+echo "Укажите время (минуты,часы,день недели,месяц,число месяца)"
+read hour
+read minute
+read dayofweek
+read month
+read day
+
+if ! [ -d /home/$USER/backup ]; then
+cd /home/$USER
+mkdir backup
+fi
+
+if [ $method = 1 ]; then
+crontab -l > /tmp/crontab.file 
+cp /tmp/crontab.file /tmp/crontab.file.backup
+echo "$minute $hour $day $month $dayofweek tar -cf /home/$USER/backup/backup-`eval date +%F`.tar $files" >> /tmp/crontab.file
+crontab /tmp/crontab.file
+exit 0
+fi
+
+if [ $method = 2 ]; then
+crontab -l > /tmp/crontab.file 
+cp /tmp/crontab.file /tmp/crontab.file.backup
+echo "$minute $hour $day $month $dayofweek dd if=$files of=/home/$USER/backup/backup-`eval date +%F`.dd" >> /tmp/crontab.file
+crontab /tmp/crontab.file
+exit 0
+fi
+
+if [ $method = 3 ]; then
+echo "Введите путь до git"
+read PATH_TO_GIT
+crontab -l > /tmp/crontab.file 
+cp /tmp/crontab.file /tmp/crontab.file.backup
+echo "$minute $hour $day $month $dayofweek `pwd`/seven.sh git $PATH_TO_GIT $files" >> /tmp/crontab.file
+crontab /tmp/crontab.file
+exit 0
+fi
+
+exit 1

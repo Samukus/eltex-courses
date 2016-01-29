@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#echo "/home/alex/shared/Server 127.0.0.1(rw,insecure,nohide,all_squash,anonuid=1000,anongid=1000,no_subtree_check)" >> /etc/exports
+#echo "127.0.0.1:/home/alex/shared/Server /media/alex/Server nfs user,rw 0 0" >> /etc/fstab
+
+sudo cp /home/alex/eltex/bash/script6/script6.sh /etc/init.d
+sudo update-rc.d script6.sh defaults 99 0

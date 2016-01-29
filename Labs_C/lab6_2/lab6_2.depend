@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1443999169 source:/home/alex/eltex/lab6_2/main.c
+	<stdio.h>
+	<stdlib.h>
+

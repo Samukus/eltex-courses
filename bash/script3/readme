@@ -1,0 +1,5 @@
+script3 hour minute
+
+через hour и minute задается время срабатывания в формате:
+script3 hh mm
+проигрывается файл signal.mp3 в текущей директории

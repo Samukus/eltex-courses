@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "Directory to Backup:"
+read PathFrom
+
+echo -e "\nLocation of Backup:"
+read PathTo
+
+PathTo=/home/alex/eltex/bash/script7/Backup
+mkdir $PathTo 2>/dev/null
+
+echo -e "\nSelect files to Backup (type '-' to Backup all directory):"
+ls $PathFrom
+
+echo -e "\nSelect interval of Backup (seconds):"
+read Interval
+
+while [ 1 ]; do
+
+	( tar -c $PahtFrom ) | ( cd /where/to/ && tar -x -p )
+	sleep $Interval
+done

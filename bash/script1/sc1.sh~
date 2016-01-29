@@ -1,0 +1,22 @@
+#!/bin/bash
+
+a="dir$i"
+
+for i in `seq 0 9`;
+do
+echo "Dir$i"
+mkdir "Dir$i"
+cd "Dir$i"
+for j in `seq 0 49`;
+do
+echo "Dir$i/SubDir$j"
+mkdir "SubDir$i"_"$j"
+cd "SubDir$i"_"$j"
+for k in `seq 0 49`;
+do
+touch "File$i"_"$j:$k.e"
+done
+cd ..
+done
+cd ..
+done

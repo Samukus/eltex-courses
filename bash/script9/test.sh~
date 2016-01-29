@@ -1,0 +1,14 @@
+#!/bin/bash
+
+CHAR_VAR="== 15"
+
+VAR1=$CHAR_VAR | awk '{print $1}'
+VAR2=$CHAR_VAR | awk '{print $2}'
+
+echo "var1 -> $VAR1"
+echo "var2 -> $VAR2"
+
+read myvar
+
+echo $myvar | awk '{if( $0 => "6,0" ) {print $0}}'
+

@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1444785534 source:/home/alex/eltex/lab11_war/main.c
+	<sys/types.h>
+	<sys/stat.h>
+	<wait.h>
+	<fcntl.h>
+	<stdlib.h>
+	<unistd.h>
+	<string.h>
+	<errno.h>
+	<stdio.h>
+	<signal.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<netinet/in.h>
+

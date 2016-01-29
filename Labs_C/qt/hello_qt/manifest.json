@@ -1,0 +1,15 @@
+{
+    "name": "com.ubuntu.developer.username.hello-qt",
+    "description": "description of hello-qt",
+    "framework": "ubuntu-sdk-14.04-qml",
+    "architecture": "all",
+    "title": "hello-qt",
+    "hooks": {
+        "hello-qt": {
+            "apparmor": "hello-qt.json",
+            "desktop": "hello_qt.desktop"
+        }
+    },
+    "version": "0.1",
+    "maintainer": ""
+}

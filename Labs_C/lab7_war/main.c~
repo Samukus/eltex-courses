@@ -1,0 +1,67 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <wait.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+
+#define N 5
+#define GOLD 400
+
+int main()
+{
+int our_pipe[N][2];
+pid_t childpid[N]; /* создание двух каналов */
+int gold = GOLD;
+int i;
+
+for(i=0;i<N;i++){
+    pipe(our_pipe[i]);
+    childpid[i] = fork();
+    if(childpid[i] == 0)
+    {
+        char wrbuff[2];
+        int wr = our_pipe[i][1];
+        while(1){
+            srand(time(0));
+            sleep(1);
+            sprintf(wrbuff,"%d",rand()%98+1);
+            write(wr,wrbuff,sizeof(wrbuff));
+            printf("hui fork %d\n",getpid());
+        }
+    }
+}
+
+char buf[2];
+int mined;
+while(1){
+    srand(time(0));
+    sleep(rand()%2);
+    i = rand()%N;
+    if(read(our_pipe[i][0],buf,sizeof(buf))){
+        mined = atoi(buf);
+        mined = (gold < mined) ? gold : mined;
+        gold -= mined;
+        printf("Unit %.2d mined %d gold, %d gold in mine\n",i+1,mined,gold);
+    }
+    if(gold <= 0) break;
+}
+
+/*
+for(i=0;i<N;i++){
+    char endbuff[256];
+    read(our_pipe[i][0],endbuff,sizeof(endbuff));
+    printf("\n%d, buff:\n%s\n",i,endbuff);
+}
+*/
+
+for(i=0;i<N;i++){
+    kill(childpid[i],SIGTERM);
+    close(our_pipe[i][0]);
+    close(our_pipe[i][1]);
+}
+exit(0);
+}
