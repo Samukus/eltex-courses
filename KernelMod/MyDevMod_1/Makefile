@@ -1,0 +1,14 @@
+obj-m += random.o
+DEF_PATH=$(PWD)
+all:
+	make -i clean
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	sudo insmod random.ko
+	clear
+	tail -2 /var/log/syslog
+	
+	#Make: sudo mknod /dev/mydev c "Major_ID" 0
+	#Make: cat /dev/mydev to get random in console
+clean:
+	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	sudo rmmod random.ko
