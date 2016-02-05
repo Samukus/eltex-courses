@@ -9,6 +9,7 @@ MODULE_DESCRIPTION("Module \"Random\".");
 
 #define DEVICE_NAME "mydev"	/* Имя устройства, будет отображаться в /dev   */
 #define BUF_LEN 80		/* Максимальная длина сообщения */
+#define MAJOR 198		/* Старший номер устройства нашего драйвера */
 
 int init_module(void);
 void cleanup_module(void);
@@ -18,7 +19,7 @@ static ssize_t device_read(struct file *, char *, size_t, loff_t *);
 static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 /* size_t == unsigned int, ssize_t == int */
 
-static int Major;		/* Старший номер устройства нашего драйвера */
+
 static int Device_Open = 0;	/* 0 - устройство закрыто
 				 * 1 - устройство открыто */
 static char msg[BUF_LEN];	/* Текст сообщения */
@@ -47,16 +48,16 @@ static int rand(void) {
 
 int init_module(void)
 {
-	Major = register_chrdev(0, DEVICE_NAME, &fops);	/* Получение старшего номера устройства */
+	int ret = register_chrdev(MAJOR, DEVICE_NAME, &fops);	/* Получение старшего номера устройства */
 
-	if (Major < 0) {    
+	if (ret < 0) {    
 		printk(KERN_ALERT "Error registration device %s in module \"Random\"\n", DEVICE_NAME);
-		return Major;	/* Возврат не 0 считается ошибкой */
+		return ret;	/* Возврат не 0 считается ошибкой */
 	}
 
 	printk(KERN_ALERT "Kernel module \"Random\" successfully loaded\n");
-	printk(KERN_ALERT "Major ID: %d\n", Major);
-	/* Теперь нужно подключить это устройство командой sudo mknod /dev/chardev c Major 0 */
+	printk(KERN_ALERT "Major ID: %d\n", MAJOR);
+	/* Теперь нужно подключить это устройство командой sudo mknod /dev/chardev c MAJOR 0 */
 	/* Затем можно будет что-нибудь прочитать из этого устройства командой cat /dev/mydev */
 
 	return 0;
@@ -64,7 +65,7 @@ int init_module(void)
 
 void cleanup_module(void)
 {
-	unregister_chrdev(Major, DEVICE_NAME);
+	unregister_chrdev(MAJOR, DEVICE_NAME);
 	printk(KERN_ALERT "Kernel module \"Random\" successfully removed \n");
 }
 
