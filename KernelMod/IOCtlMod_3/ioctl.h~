@@ -1,0 +1,11 @@
+/*typedef struct _RETURN_INT {
+   int buf_int;
+} RETURN_INT;*/
+
+#define IOC_MAGIC    'h'
+//#define IOCTL_GET_RANDOM _IOR( IOC_MAGIC, 1, RETURN_INT )
+#define IOCTL_GET_RANDOM _IO( IOC_MAGIC, 1 )
+
+
+#define DEVPATH "/dev/ioctl_random"
+
